@@ -1,0 +1,3 @@
+/* Source and licensing information for the line(s) below can be found at http://media-youtube-upload.com/sites/all/themes/bootstrap/js/misc/tabledrag.js. */
+(function($){Drupal.tableDrag.prototype.row.prototype.markChanged=function(){var $cell=$('td:first',this.element),$target=$($cell.find('.file-size').get(0)||$cell.find('.file').get(0)||$cell.find('.tabledrag-handle').get(0));if(!$cell.find('.tabledrag-changed').length)$target.after(' '+Drupal.theme('tableDragChangedMarker')+' ')}})(jQuery);;
+/* Source and licensing information for the above line(s) can be found at http://media-youtube-upload.com/sites/all/themes/bootstrap/js/misc/tabledrag.js. */

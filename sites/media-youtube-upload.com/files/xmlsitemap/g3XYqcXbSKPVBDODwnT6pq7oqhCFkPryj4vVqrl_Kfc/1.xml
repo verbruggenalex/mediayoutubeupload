@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="//media-youtube-upload.com/sitemap.xsl"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url><loc>http://media-youtube-upload.com/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
+<url><loc>http://media-youtube-upload.com/contact-us</loc></url>
+<url><loc>http://media-youtube-upload.com/upload-video</loc></url>
+<url><loc>http://media-youtube-upload.com/videos</loc></url>
+<url><loc>http://media-youtube-upload.com/upload-video</loc><lastmod>2015-12-29T09:49Z</lastmod><changefreq>monthly</changefreq></url>
+<url><loc>http://media-youtube-upload.com/privacy-policy</loc><lastmod>2015-12-21T16:06Z</lastmod><changefreq>monthly</changefreq></url>
+<url><loc>http://media-youtube-upload.com/introduction</loc><lastmod>2015-12-26T14:46Z</lastmod><changefreq>monthly</changefreq></url>
+<url><loc>http://media-youtube-upload.com/media-youtube-upload-automatic-installation</loc><lastmod>2016-02-07T13:40Z</lastmod><changefreq>daily</changefreq></url>
+</urlset>
