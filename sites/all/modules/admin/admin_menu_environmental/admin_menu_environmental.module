@@ -1,0 +1,384 @@
+<?php
+/**
+ * @file
+ * Apply different colors to the administration menu and masquerade integration.
+ */
+
+/**
+ * Set a global constant to define the basename for our added css files.
+ */
+define('ADMIN_MENU_ENVIRONMENTAL_BASENAME', basename(__FILE__, '.module'));
+
+/**
+ * Implements hook_help().
+ */
+function admin_menu_environmental_help($path, $arg) {
+  switch ($path) {
+    case 'admin/config/administration/admin_menu/environmental':
+      $output = '<p>' . t('Differentiate environments by changing the admin menu bar color. Use the settings below to customize the appearance of the menu per environment. Each environment will be determined by the domain name.') . '</p>';
+      if (variable_get('admin_menu_environmental_settings', NULL)) {
+        $output .= '<p class="error">' . t('Warning! These settings are currently being overridden by a global variable defined in your settings file. Settings saved in this form will have no effect on the admin menu.') . '</p>';
+      }
+      return $output;
+
+    case 'admin/help#admin_menu_environmental':
+      return t("TODO: Create admin help text.");
+  }
+}
+/**
+ * Implements hook_init().
+ */
+function admin_menu_environmental_init() {
+  // Disable admin menu clientside cache
+  // TODO: should do this elsewhere?
+  variable_set('admin_menu_cache_client', 0);
+}
+
+/**
+ * Implements hook_permission().
+ */
+function admin_menu_environmental_permission() {
+  return array(
+    'access environmental administration menu' => array(
+      'title' => t('Access environmental administration menu'),
+      'description' => t('Display the administration menu according to environment at the top of each page.'),
+    ),
+    'administer environmental administration menu' => array(
+      'title' => t('Administer environmental administration menu'),
+      'description' => t('Administer colors and environments for the environmental administration menu.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function admin_menu_environmental_menu() {
+  $items['admin/config/administration/admin_menu/global'] = array(
+    'title' => 'Global Settings',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  );
+  $items['admin/config/administration/admin_menu/environmental'] = array(
+    'title' => 'Environmental settings',
+    'type' => MENU_LOCAL_TASK,
+    'description' => 'Adjust environmental administration menu settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('admin_menu_environmental_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'admin_menu_environmental.admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function admin_menu_environmental_theme() {
+  return array(
+    'admin_menu_environmental_environments_form' => array(
+      'file' => 'admin_menu_environmental.admin.inc',
+      'render element' => 'form',
+    ),
+  );
+}
+
+
+/**
+ * Implements hook_preprocess_html().
+ */
+function admin_menu_environmental_preprocess_html(&$vars) {
+  if (isset($vars['page']['page_bottom']['admin_menu'])) {
+    // Get the current user account.
+    $account = admin_menu_environmental_get_current_user_account();
+    // Check for admin menu environment access on the account.
+    if (user_access('access environmental administration menu', $account)) {
+      // Add class for our stylesheets.
+      $vars['classes_array'][] = 'admin-menu-environmental';
+      // Add stylesheet for the masquerade form.
+      $path = drupal_get_path('module', 'admin_menu_environmental');
+      drupal_add_css($path . '/css/style.css', array(
+        'group' => CSS_DEFAULT,
+        'type' => 'file',
+        'basename' => ADMIN_MENU_ENVIRONMENTAL_BASENAME . '.style.css',
+        )
+      );
+      drupal_add_css($path . '/css/masquerade.css', array(
+        'group' => CSS_DEFAULT,
+        'type' => 'file',
+        'basename' => ADMIN_MENU_ENVIRONMENTAL_BASENAME . '.masquerade.css',
+        )
+      );
+      // Make the form autosubmit and add autocomplete.js to page.
+      if (!isset($_SESSION['masquerading'])) {
+        drupal_add_js(drupal_get_path('module', 'admin_menu_environmental') . '/js/autocomplete_autosubmit.js', array(
+          'group' => JS_THEME,
+          'basename' => ADMIN_MENU_ENVIRONMENTAL_BASENAME . '.autocomplete.autosubmit',
+          )
+        );
+        drupal_add_js('misc/autocomplete.js');
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_admin_menu_output_alter().
+ */
+function admin_menu_environmental_admin_menu_output_alter(&$content) {
+  // Get the current user account.
+  $account = admin_menu_environmental_get_current_user_account();
+  // Check for admin menu environment access on the account.
+  if (user_access('access environmental administration menu', $account)) {
+    // If variable defined in settings.php take that name.
+    if ($environment = variable_get('admin_menu_environmental_settings', NULL)) {
+      $environment_title = $environment['name'];
+    }
+    // Otherwise check for environmental settings in the database.
+    else {
+      module_load_include('inc', 'admin_menu_environmental', 'admin_menu_environmental.admin');
+      $environments = variable_get('admin_menu_environmental', '');
+      if (!empty($environments)) {
+        foreach ($environments as $environment) {
+          global $base_url;
+          $domain = parse_url($base_url);
+          if ($environment['domain'] == $domain['host']) {
+            $environment_title = $environment['name'];
+          }
+        }
+      }
+    }
+    // Set the environment title.
+    if (isset($environment_title)) {
+      $content['icon']['icon']['#title'] = $content['icon']['icon']['#title'] = '<span>' . $environment_title . '</span>';
+      $content['icon']['#weight'] = -99;
+    }
+
+    if (isset($_SESSION['masquerading'])) {
+      // (Re)set the account title when masquerading.
+      if (isset($content['account'])) {
+        global $user;
+        // Anonymous.
+        if ($user->uid == 0) {
+          $name = variable_get('anonymous', t('Anonymous'));
+        }
+        // Registered.
+        else {
+          $name = $user->name;
+        }
+        // Set the account title.
+        $title = t('Masquerading as <strong>!username</strong>', array('!username' => $name));
+        $content['account']['account']['#title'] = $title;
+      }
+      // Add the masquerade form.
+      $content['masquerade'] = array(
+        '#theme' => 'admin_menu_links',
+        '#wrapper_attributes' => array(
+          'id' => 'admin-menu-masquerade',
+        ),
+        '#weight' => 0,
+        'masquerade' => array(
+          '#title' => t('Switch back'),
+          '#href' => 'masquerade/unswitch',
+          '#weight' => -100,
+          '#options' => array(
+            'query' => array('token' => drupal_get_token('masquerade/unswitch')),
+          ),
+        ),
+      );
+    }
+    else {
+      // Add a slot for our masquerade form, it will be replaced at the last
+      // possible moment to avoid caching troubles.
+      $content['masquerade'] = array(
+        '#theme' => 'admin_menu_links',
+        '#wrapper_attributes' => array(
+          'id' => 'admin-menu-masquerade',
+        ),
+        '#weight' => 0,
+        'masquerade' => array(
+          '#title' => t('Masquerade'),
+        ),
+      );
+    }
+    // If we have devel user switch links unset them.
+    $user_account_links = $content['account']['account'];
+    foreach ($user_account_links as $account_link_name => $account_link) {
+      if (isset($account_link['#href']) && strpos($account_link['#href'], 'devel/switch') !== FALSE) {
+        unset($content['account']['account'][$account_link_name]);
+      }
+    }
+    // Move logout link to the second level in account menu.
+    unset($content['account']['logout']['#attributes']['class']);
+    $content['account']['account']['logout'] = $content['account']['logout'];
+    unset($content['account']['logout']);
+  }
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function admin_menu_environmental_module_implements_alter(&$implementations, $hook) {
+  // Move our hook to the end of the implementations because else
+  // admin_menu_toolbar would set the icon title to "Home"
+  if ($hook == 'admin_menu_output_alter') {
+    $group = $implementations['admin_menu_environmental'];
+    unset($implementations['admin_menu_environmental']);
+    $implementations['admin_menu_environmental'] = $group;
+  }
+}
+
+/**
+ * Implements hook_page_build().
+ */
+function admin_menu_environmental_page_build(&$page) {
+  // Get the current user account.
+  $account = admin_menu_environmental_get_current_user_account();
+  // Check for admin menu environment access on the account.
+  if (user_access('access environmental administration menu', $account)) {
+    $page['page_bottom']['admin_menu_environmental'] = array(
+      '#attached' => array(),
+    );
+    $attached = &$page['page_bottom']['admin_menu_environmental']['#attached'];
+    $options = array('every_page' => TRUE);
+    // If variable defined in settings.php take that color.
+    if ($environment = variable_get('admin_menu_environmental_settings', NULL)) {
+      $color = $environment['color'];
+    }
+    // Otherwise check for environmental settings in the database.
+    else {
+      $environments = variable_get('admin_menu_environmental', array());
+      global $base_url;
+      $domain = parse_url($base_url);
+      foreach ($environments as $environment) {
+        if ($environment['domain'] == $domain['host']) {
+          $color = $environment['color'];
+        }
+      }
+    }
+    // Attach the colored stylesheet.
+    if (isset($color)) {
+      $css_file = variable_get('file_' . file_default_scheme() . '_path', conf_path() . '/files') . '/admin_menu_environmental/' . $color . '.css';
+      if (file_exists($css_file)) {
+        $attached['css'][$css_file] = $options;
+      }
+    }
+
+    // ************************************************************************
+    // If masquerading and user doesn't have access to the admin menu.
+    // And masquerading user has access to the admin menu AND environment.
+    // TODO: check on masquerading user for access to admin menu and
+    // environmental admin menu.
+    // REMINDER: UID is in masquerading session
+    // TODO: check for possible session hijacking???
+    // ************************************************************************
+    // This is a full copy of the admin menu build.
+    if (isset($_SESSION['masquerading']) && (!user_access('access administration menu') || admin_menu_suppress(FALSE))) {
+      // Performance: Skip this entirely for AJAX requests.
+      if (strpos($_GET['q'], 'js/') === 0) {
+        return;
+      }
+      global $user;
+      $path = drupal_get_path('module', 'admin_menu');
+
+      $page['page_bottom']['admin_menu'] = array(
+        '#attached' => array(),
+      );
+      $attached = &$page['page_bottom']['admin_menu']['#attached'];
+      $options = array('every_page' => TRUE);
+
+      $attached['css'][$path . '/admin_menu.css'] = $options;
+      if ($user->uid == 1) {
+        $attached['css'][$path . '/admin_menu.uid1.css'] = $options;
+      }
+      // Previous versions used the 'defer' attribute to increase browser
+      // rendering performance. At least starting with Firefox 3.6, deferred
+      // .js files are loaded, but Drupal.behaviors are not contained in the
+      // DOM when drupal.js executes Drupal.attachBehaviors().
+      $attached['js'][$path . '/admin_menu.js'] = $options;
+
+      // Destination query strings are applied via JS.
+      $settings['destination'] = drupal_http_build_query(drupal_get_destination());
+
+      $page['page_bottom']['admin_menu']['#markup'] = admin_menu_output();
+
+      if ($setting = variable_get('admin_menu_margin_top', 1)) {
+        $settings['margin_top'] = $setting;
+        // @todo Drupal.behaviors.adminMenuMarginTop is obsolete, but
+        // hook_page_build() does not allow to set a CSS class on the body yet.
+        // @see http://drupal.org/node/1473548, http://drupal.org/node/1194528
+        // $page['#attributes']['class'][] = 'admin-menu';
+      }
+      if ($setting = variable_get('admin_menu_position_fixed', 1)) {
+        $settings['position_fixed'] = $setting;
+
+        // In fixed positioning, supply a callback function for tableheader.js
+        // to allow it to determine the top viewport offset.
+        // @see admin_menu.js, toolbar.js
+        $attached['js'][] = array(
+          'data' => array('tableHeaderOffset' => 'Drupal.admin.height'),
+          'type' => 'setting',
+        );
+      }
+      if ($setting = variable_get('admin_menu_tweak_tabs', 0)) {
+        $settings['tweak_tabs'] = $setting;
+      }
+      if ($_GET['q'] == 'admin/modules' || strpos($_GET['q'], 'admin/modules/list') === 0) {
+        $settings['tweak_modules'] = variable_get('admin_menu_tweak_modules', 0);
+      }
+      if ($_GET['q'] == 'admin/people/permissions' || $_GET['q'] == 'admin/people/permissions/list') {
+        $settings['tweak_permissions'] = variable_get('admin_menu_tweak_permissions', 0);
+      }
+
+      $attached['js'][] = array(
+        'data' => array('admin_menu' => $settings),
+        'type' => 'setting',
+      );
+    }
+  }
+}
+
+/**
+ * Implements hook_page_alter().
+ */
+function admin_menu_environmental_page_alter(&$page) {
+  // Hide Toolbar for those who are accessing the Admin Menu.
+  if (isset($page['page_bottom']['admin_menu'])) {
+    $page['page_top']['toolbar']['#access'] = FALSE;
+  }
+}
+
+/**
+ * Implements hook_admin_menu_replacements().
+ */
+function admin_menu_environmental_admin_menu_replacements($complete) {
+  $items = array();
+  if (!isset($_SESSION['masquerading'])) {
+    // Get the masquerading block.
+    $masquerade_form = drupal_get_form('masquerade_block_1');
+    // Make the form autosumbit.
+    $masquerade_form['masquerade_user_field']['#attributes']['class'] = array('auto_submit');
+    $masquerade_form['#attributes']['class'] = array('admin-menu-action admin-menu-masquerade-form');
+    // Set a placeholder.
+    $masquerade_form['masquerade_user_field']['#attributes']['placeholder'] = 'Masquerade as';
+    // Remove the description, switch back link is in that also.
+    unset($masquerade_form['masquerade_desc']);
+
+    $rendered_form = drupal_render($masquerade_form);
+    // Replace the counters in the cached menu output with current counts.
+    $items['#admin-menu-masquerade li'] = $rendered_form;
+  }
+  return $items;
+}
+
+/**
+ * Helper function to return the current user account.
+ */
+function admin_menu_environmental_get_current_user_account() {
+  global $user;
+  $account = $user;
+  if (isset($_SESSION['masquerading'])) {
+    $account = user_load($_SESSION['masquerading']);
+  }
+  return $account;
+}

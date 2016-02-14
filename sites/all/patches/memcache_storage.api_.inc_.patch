@@ -1,0 +1,13 @@
+diff --git a/memcache_storage.api.inc b/memcache_storage.api.inc
+index d2c64cb..8a3e2d6 100644
+--- a/memcache_storage.api.inc
++++ b/memcache_storage.api.inc
+@@ -640,7 +640,7 @@ class MemcacheStorageAPI {
+     // Get array with debug data.
+     $memcache_storage_debug_output = &drupal_static('memcache_storage_debug_output');
+ 
+-    if (is_string($cache_id)) {
++    if (is_string($cache_id) || is_integer($cache_id)) {
+       $cache_id = array($cache_id);
+     }
+ 

@@ -1,0 +1,4 @@
+name = plain
+description = Simple colored flags
+dimensions = 16x12
+format = png

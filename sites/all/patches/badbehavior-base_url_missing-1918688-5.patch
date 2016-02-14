@@ -1,0 +1,14 @@
+diff --git a/badbehavior.install b/badbehavior.install
+old mode 100644
+new mode 100755
+index 0f1c55e..87ee9dd
+--- a/badbehavior.install
++++ b/badbehavior.install
+@@ -70,6 +70,7 @@ function badbehavior_schema() {
+  */
+ function badbehavior_requirements($phase) {
+   $requirements = array();
++  global $base_url;
+   if ($phase == 'runtime') {
+     if (badbehavior_load_includes()) {
+       if (BB2_VERSION == '2.2.15') {

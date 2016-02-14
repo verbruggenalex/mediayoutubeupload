@@ -1,0 +1,14 @@
+name = Administration menu environmental
+description = Change the admin menu's color according to environment and integration with masquerade.
+dependencies[] = admin_menu
+dependencies[] = masquerade
+package = Administration
+configure = admin/config/administration/admin_menu/environmental
+core = 7.x
+
+; Information added by Drupal.org packaging script on 2015-04-29
+version = "7.x-1.x-dev"
+core = "7.x"
+project = "admin_menu_environmental"
+datestamp = "1430301482"
+

@@ -1,0 +1,79 @@
+<?php
+/**
+ * @file
+ * Install, update, and uninstall functions for the module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function admin_menu_environmental_install() {
+  // Include the admin.inc to generate our css files.
+  assert(module_load_include('inc', 'admin_menu_environmental', 'admin_menu_environmental.admin') !== FALSE);
+  // Define some default colors.
+  $colors = array(
+    'black' => array(
+      'bar_dark' => '101010',
+      'bar_light' => '353535',
+      'bar_hover' => '444444',
+      'bar_active' => '9a9a9a',
+      'dropdown_empty' => '202020',
+      'dropdown_container' => '45454A',
+      'dropdown_hover' => '111111',
+      'dropdown_border' => '323232',
+    ),
+    'green' => array(
+      'bar_dark' => '004418',
+      'bar_light' => '006400',
+      'bar_hover' => '228B22',
+      'bar_active' => '44be44',
+      'dropdown_empty' => '197A19',
+      'dropdown_container' => '329432',
+      'dropdown_hover' => '0C540C',
+      'dropdown_border' => '196619',
+    ),
+    'yellow' => array(
+      'bar_dark' => '3f2402',
+      'bar_light' => '7b4604',
+      'bar_hover' => 'CC7722',
+      'bar_active' => 'e89c6b',
+      'dropdown_empty' => 'CD7F32',
+      'dropdown_container' => 'FFA940',
+      'dropdown_hover' => '5C3F19',
+      'dropdown_border' => 'CC7722',
+    ),
+    'red' => array(
+      'bar_dark' => '560400',
+      'bar_light' => '930000',
+      'bar_hover' => 'cc0000',
+      'bar_active' => 'e85153',
+      'dropdown_empty' => '991f1f',
+      'dropdown_container' => 'b93f3f',
+      'dropdown_hover' => '690f0f',
+      'dropdown_border' => '801f1f',
+    ),
+    'blue' => array(
+      'bar_dark' => '181bd9',
+      'bar_light' => '1f63d9',
+      'bar_hover' => '2259ba',
+      'bar_active' => '2393d9',
+      'dropdown_empty' => '0c2b99',
+      'dropdown_container' => '377799',
+      'dropdown_hover' => '1d579e',
+      'dropdown_border' => '1d8fcc',
+    ),
+  );
+  // Set the colors variable.
+  variable_set('admin_menu_environmental_colors', $colors);
+  // Generate css files.
+  admin_menu_environmental_save_css_color_file($colors);
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function admin_menu_environmental_uninstall() {
+  // Delete variables.
+  variable_del('admin_menu_environmental');
+  variable_del('admin_menu_environmental_colors');
+}

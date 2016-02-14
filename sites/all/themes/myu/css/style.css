@@ -1,0 +1,199 @@
+/**
+ * Place your custom styles here.
+ */
+label[for=edit-youtube-upload] {
+  float: left;
+  width: 100%;
+  display: block;
+}
+.media-youtube-uploader-form-managed-file {
+  display: inline-block;
+  margin-right: 15px;
+}
+#edit-youtube-actions {
+  display: inline-block;
+}
+h1 {
+  font-size: 28px;
+}
+h2 {
+  font-size: 24px;
+}
+h3, .h3 {
+  font-size: 18px;
+}
+h4 {
+  font-size: 16px;
+}
+.menu.nav.navbar-nav.language, .menu.nav.navbar-nav.user {
+  float: right;
+  display: block;
+}
+.language-icon {
+  float: left;
+  margin-top: 4px;
+  margin-right: 7px;
+}
+.dropdown-language > ul, .dropdown-user > ul {
+  left: auto;
+  right: 0;
+}
+#l10n-client {
+  display:block;
+  visibility:visible;
+}
+input[type='file'].form-control {
+  height: auto;
+}
+input[type='file'].form-control + .input-group-btn > button {
+  padding: 8px 12px;
+}
+.dropdown-toggle span + .fa-angle-down {
+  margin-left: 5px;
+}
+#login .login-close {
+  float: right;
+  border: none;
+  background: none;
+  margin: -6px 0 0 0;
+  padding: 0;
+}
+#login .modal-dialog {
+  width: 300px;
+  left: 50%;
+  top: 25%;
+  margin-left: -150px;
+  position: absolute;
+}
+#login #facebook-login {
+  background-color: #4e69a2;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: #fff;
+  display: inline-block;
+  margin-left: 11px;
+  padding: 6px 12px 6px 26px;
+  position: relative;
+  text-decoration: none;
+  vertical-align: middle;
+}
+#login #facebook-login i.fa-facebook {
+  border: medium none;
+  bottom: 8px;
+  color: #fff;
+  font-size: 16px;
+  height: auto;
+  left: 8px;
+  padding: 0;
+  position: absolute;
+  width: auto;
+}
+#login .form-item .control-label {
+  display: none;
+}
+#login .input-icon > .form-control {
+  padding-left: 33px;
+}
+.input-icon {
+  left: 0;
+  position: relative;
+}
+.input-icon > i {
+  color: #ccc;
+  display: block;
+  font-size: 16px;
+  margin: 9px 2px 4px 10px;
+  position: absolute;
+  text-align: center;
+  width: 16px;
+  z-index: 3;
+}
+
+.page-file-youtube-video .col-sm-5 .field {
+  margin-bottom: 10px;
+}
+
+.view-videos .view-content .video-teaser .video-thumbnail > a::before {
+  background: #000 none repeat scroll 0 0;
+  bottom: 0;
+  content: "";
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: all 0.3s ease 0s;
+}
+.view-videos .view-content .video-teaser .video-thumbnail:hover > a::before {
+  opacity: 0.4;
+}
+.view-videos .view-content .video-teaser .video-thumbnail:hover .video-icon i {
+  opacity: 1;
+}
+.view-videos .view-content .video-teaser .video-thumbnail a .video-icon {
+  left: 50%;
+  margin-left: -21px;
+  margin-top: -21px;
+  position: absolute;
+  top: 50%;
+}
+.view-videos .view-content .video-teaser .video-thumbnail a .video-icon i {
+  background: #fff none repeat scroll 0 0;
+  border-radius: 19%;
+  color: #333;
+  font-size: 18px;
+  height: 38px;
+  line-height: 38px;
+  opacity: 0;
+  position: relative;
+  text-align: center;
+  transition: all 0.3s ease 0s;
+  width: 58px;
+}
+.view-videos .view-content .video-teaser .video-thumbnail a img {
+  float: left;
+}
+.view-videos .view-content .video-teaser .video-thumbnail {
+  margin-bottom: 16px;
+  overflow: hidden;
+  position: relative;
+}
+.view-videos .view-content > div {
+  margin-bottom: 10px;
+}
+.view-videos  .view-content .video-teaser .video-thumbnail a {
+  display: block;
+  overflow: hidden;
+}
+@media (min-width: 768px) {
+  .navbar-user-language {
+    position: absolute;
+    right: 0;
+    display: block;
+    float: right;
+  }
+  .navbar-collapse {
+    padding-right: 11em;
+  }
+}
+.navbar-toggle {
+  margin-left: 15px;
+}
+footer {
+  margin-top: 20px;
+}
+
+.page-file-youtube-video .media-youtube-video {
+  margin-bottom: 10px;
+}
+
+.panel-panel.right .pane-file-display h3 {
+  margin-top: 0;
+}
+
+.front .pane-file-display {
+  padding-left: 0;
+}
+.page-node .pane-file-display {
+  margin-bottom: 20px;
+}

@@ -1,0 +1,60 @@
+/**
+ * @file
+ * Administration menu color overrides.
+ */
+
+.admin-menu-environmental #admin-menu {
+  background: [[bar_dark]]; /* Old browsers */
+  background: -moz-linear-gradient(top,  [[bar_dark]] 0%, [[bar_light]] 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,[[bar_dark]]), color-stop(100%,[[bar_light]])); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  [[bar_dark]] 0%,[[bar_light]] 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  [[bar_dark]] 0%,[[bar_light]] 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  [[bar_dark]] 0%,[[bar_light]] 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  [[bar_dark]] 0%,[[bar_light]] 100%); /* W3C */
+}
+.admin-menu-environmental #admin-menu li.admin-menu-action a {
+  border-left-color: #198719;
+}
+
+/* All lists */
+.admin-menu-environmental #admin-menu ul a {
+  border-right-color: #198719;
+}
+.admin-menu-environmental #admin-menu ul li.admin-menu-tab a {
+  border-right-color: #52565e;
+}
+.admin-menu-environmental #admin-menu .dropdown li li a {
+  border-top-color: [[dropdown_border]];
+}
+/* All list items */
+.admin-menu-environmental #admin-menu .dropdown li li {
+  background-color: [[dropdown_empty]];
+}
+/* Second-and-more-level hovering */
+.admin-menu-environmental #admin-menu .dropdown li li.expandable {
+  background-color: [[dropdown_container]];
+}
+.admin-menu-environmental #admin-menu .dropdown li li:hover,
+.admin-menu-environmental #admin-menu .dropdown li li.iehover {
+  background-color: [[dropdown_hover]];
+}
+.admin-menu-environmental #admin-menu .dropdown li li.expandable:hover a,
+.admin-menu-environmental #admin-menu .dropdown li li.expandable:hover li.expandable:hover a {
+  border-color: [[dropdown_border]];
+}
+.admin-menu-environmental #admin-menu .dropdown li li.expandable:hover li a,
+.admin-menu-environmental #admin-menu .dropdown li li.expandable:hover li.expandable:hover li a {
+  border-color: [[dropdown_border]];
+}
+.admin-menu-environmental #admin-menu .dropdown .admin-menu-toolbar-category > a.active-trail {
+  background: [[bar_active]];
+  text-shadow: 0 1px 0 #333333;
+}
+.admin-menu-environmental #admin-menu .dropdown .admin-menu-toolbar-category > a:hover {
+  background-color: [[bar_hover]];
+}
+/*.admin-menu-environmental #admin-menu .dropdown .admin-menu-icon > a span {
+  background: url("../icons/icon.png") no-repeat scroll left bottom;
+  padding-left: 18px;
+}*/
+

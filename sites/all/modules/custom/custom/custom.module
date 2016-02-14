@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * @file custom.module
+ * TODO: Enter file description here.
+ */
+
+/**
+ * Implements hook_help().
+ */
+function custom_help($path, $arg) {
+  if ($arg[0] == 'node' && $arg[1] == '1') {
+    return '<p>' . t('This page has the !myu_url block placed on it. If you are logged in to a user account you can use the widget to upload videos straight to the sites\' YouTube account. <strong>Do NOT upload copyrighted videos or inappropriate content</strong> because this will get my channel shut down. And it will make this demo site unusable. If you are unshure about what videos are appropriate or not, please refer to the !youtube_url by YouTube.', array('!myu_url' => l(t('Media: YouTube upload'), 'https://www.drupal.org/project/media_youtube_upload'), '!youtube_url' => l(t('Terms of Service'), 'https://www.youtube.com/static?gl=US&template=terms'))) . '</p>';
+  }
+}
+
+/**
+ * Implements hook_wysiwyg_editor_settings_alter().
+ */
+function custom_wysiwyg_editor_settings_alter(&$settings, $context) {
+  dpm($context);
+  if ($context['profile']->editor == 'ckeditor') {
+    $settings['customConfig'] = base_path() . drupal_get_path('module', 'custom') . '/ckeditor_config.js';
+  }
+}

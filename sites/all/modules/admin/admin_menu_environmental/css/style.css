@@ -1,0 +1,44 @@
+/**
+ * @file
+ * Environmental admin menu settings form styling
+ */
+#admin-menu-environmental-color {
+  margin-top: 23px;
+}
+#admin-menu-environmental-color .form-type-jquery-colorpicker {
+  float: left;
+  margin-right: 20px;
+}
+#admin-menu-environmental-color.textfields {
+  float: left;
+  clear: both;
+}
+#admin-menu-environmental-color input {
+  width: auto;
+}
+.form-item.form-item-colors-admin-menu-environmental-color-select {
+  float: left;
+  margin-right: 30px;
+}
+.admin-menu-environmental #admin-menu .dropdown .admin-menu-icon > a span {
+    text-indent: 0;
+    width: auto;
+}
+.admin-menu-environmental #admin-menu .dropdown .admin-menu-icon > a {
+    margin-bottom: 5px;
+    padding: 1px 10px 4px;
+}
+.admin-menu-environmental #admin-menu .admin-menu-search input {
+    background-image: url("../img/search.png");
+    background-position: 100% 3px;
+    background-repeat: no-repeat;
+    height: 19px;
+    margin: 0 0 0 1px;
+    min-height: 0;
+    padding: 0 18px 0 6px;
+    width: 75px;
+}
+.admin-menu-environmental #admin-menu .dropdown .admin-menu-icon > a span {
+    background: url("../img/icon.png") no-repeat scroll left bottom rgba(0, 0, 0, 0);
+    padding-left: 18px;
+}

@@ -1,0 +1,4 @@
+name = Custom
+description = TODO: Description of module
+core = 7.x
+files[] = tests/custom.test

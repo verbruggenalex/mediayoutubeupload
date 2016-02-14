@@ -1,0 +1,28 @@
+/**
+ * @file
+ * Environmental admin menu settings form styling
+ */
+#admin-menu-environmental-color {
+  margin-top: 23px;
+}
+#admin-menu-environmental-color .form-type-jquery-colorpicker {
+  float: left;
+  margin-right: 20px;
+}
+#admin-menu-environmental-color.textfields {
+  float: left;
+  clear: both;
+}
+#admin-menu-environmental-color input {
+  width: auto;
+}
+.form-item.form-item-colors-admin-menu-environmental-color-select {
+  float: left;
+  margin-right: 30px;
+}
+#admin-menu-environmental-settings-form fieldset {
+  padding: 0.5em 1em 1em;
+}
+#admin-menu-environmental-settings-form fieldset table.sticky-table {
+  margin-top: 1em;
+}

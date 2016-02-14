@@ -1,0 +1,89 @@
+/**
+ * @file
+ * Environmental admin menu general styling
+ */
+
+/**
+ * Masquerade form.
+ */
+html.js .admin-menu-masquerade-form input[type="submit"] {
+  display: none;
+}
+ul#admin-menu-masquerade.dropdown {
+  float: right;
+  margin-left: 10px;
+}
+ul#admin-menu-masquerade.dropdown.switch-link {
+  margin-left: 0;
+}
+#admin-menu-masquerade input[name='masquerade_user_field'] {
+  background-position: 100% 3px;
+  border: medium none;
+  border-radius: 5px 5px 5px 5px;
+  font-size: 10px;
+  margin: 0px 0px 1px 0px;
+  outline: medium none;
+  padding: 0px 18px 0px 6px;
+  width: 75px;
+  min-height: 0;
+  height: 19px;
+}
+#admin-menu-masquerade input ul {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    display: none;
+    left: -999em;
+    line-height: 1.2em;
+    margin: 0;
+    position: absolute;
+    width: 160px;
+}
+body #admin-menu #admin-menu-masquerade {
+  float: right;
+}
+body #admin-menu #admin-menu-masquerade .form-item {
+  margin: 0;
+}
+body #admin-menu #admin-menu-masquerade #autocomplete {
+  z-index: 999;
+  overflow: visible;
+}
+#admin-menu-wrapper {
+  overflow: visible;
+}
+/* Small bug is causing the dropdown to move out of place...*/
+body #admin-menu #admin-menu-account .expandable {
+  position: relative;
+}
+body #admin-menu #admin-menu-account li.admin-menu-action:hover ul {
+  right: auto;
+  left: 0;
+}
+body #admin-menu a {
+  line-height: normal;
+}
+#masquerade-block-1 div#autocomplete ul {
+  //top: 22px !important;
+  padding-top: 3px;
+  width: 160px !important;
+  display: block !important;
+}
+#masquerade-block-1 #autocomplete li.selected {
+
+}
+#masquerade-block-1 #autocomplete li {
+  cursor: pointer;
+  cursor: hand;
+  padding: 4px 8px;
+
+}
+ #masquerade-block-1 #autocomplete li {
+  border-top: 1px solid #000000;
+  color: #FFFFFF;
+ }
+   #masquerade-block-1 #autocomplete ul.links,
+   #masquerade-block-1 #autocomplete ul.links li {
+  color: #FFFFFF;
+   }
+   #masquerade-block-1 #autocomplete p {
+
+   }
