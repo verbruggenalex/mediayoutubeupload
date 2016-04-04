@@ -37,4 +37,4 @@ label[for=edit-youtube-upload]{float:left;width:100%;display:block;}.media-youtu
 @media (min-width:768px) {
   .navbar-user-language{position:absolute;right:0;display:block;float:right;}.navbar-collapse{padding-right:11em;}
 }
-.navbar-toggle{margin-left:15px;}footer{margin-top:20px;}.page-file-youtube-video .media-youtube-video{margin-bottom:10px;}.panel-panel.right .pane-file-display h3{margin-top:0;}/**/
+.navbar-toggle{margin-left:15px;}footer{margin-top:20px;}.page-file-youtube-video .media-youtube-video{margin-bottom:10px;}.panel-panel.right .pane-file-display h3{margin-top:0;}.front .pane-file-display{padding-left:0;}.page-node .pane-file-display{margin-bottom:20px;}/**/
